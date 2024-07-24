@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function CreateEmployee() {
@@ -12,7 +13,17 @@ export default function CreateEmployee() {
     const [f_course, setCourse] = useState([]);
     const [f_image, setImage] = useState(null);
     const [error, setError] = useState('');
+    const [cookie, setCookie] = useState('');
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const name = Cookies.get('name');
+        if(name){
+          setCookie(name);
+        } else {
+          navigate('/');
+        }
+      }, [navigate]);
 
     const submitHandler = async (e) => {
         e.preventDefault();
@@ -23,7 +34,7 @@ export default function CreateEmployee() {
         formData.append('f_mobile', f_mobile);
         formData.append('f_designation', f_designation);
         formData.append('f_gender', f_gender);
-        formData.append('f_course',f_course);
+        formData.append('f_course', JSON.stringify(f_course));
         formData.append('f_image', f_image);
 
         try {
@@ -100,9 +111,9 @@ export default function CreateEmployee() {
                         onChange={(e) => setDesignation(e.target.value)}
                     >
                         <option value="">Select Designation</option>
+                        <option value="HR">HR</option>
                         <option value="Manager">Manager</option>
-                        <option value="Developer">Developer</option>
-                        <option value="Designer">Designer</option>
+                        <option value="Sales">Sales</option>
                     </select>
                 </div>
                 <div className="mb-3">
@@ -135,28 +146,28 @@ export default function CreateEmployee() {
                             <input
                                 type="checkbox"
                                 className="form-check-input"
-                                value="JavaScript"
+                                value="MCA"
                                 onChange={handleCourseChange}
                             />
-                            <label className="form-check-label">JavaScript</label>
+                            <label className="form-check-label">MCA</label>
                         </div>
                         <div className="form-check">
                             <input
                                 type="checkbox"
                                 className="form-check-input"
-                                value="Python"
+                                value="BCA"
                                 onChange={handleCourseChange}
                             />
-                            <label className="form-check-label">Python</label>
+                            <label className="form-check-label">BCA</label>
                         </div>
                         <div className="form-check">
                             <input
                                 type="checkbox"
                                 className="form-check-input"
-                                value="Java"
+                                value="BSC"
                                 onChange={handleCourseChange}
                             />
-                            <label className="form-check-label">Java</label>
+                            <label className="form-check-label">BSC</label>
                         </div>
                     </div>
                 </div>

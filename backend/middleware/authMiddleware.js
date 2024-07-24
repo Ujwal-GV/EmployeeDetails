@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 
 async function checkAuthorization(req, res, next){
-    const token = req.header("Authorization")?.split(" ")[1];
+    const token = req.headers["authorization"];
     if(!token){
         return res.status(401).json({ message: "Not authorized to access" });
     }

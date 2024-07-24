@@ -8,7 +8,7 @@ async function createEmployee(req, res){
         return res.status(400).json({ message: "Email already exists" });
     }
 
-    if(!req.file || !["image/jpg", "image/png"].includes(req.file.mimetype)){
+    if(!req.file || !["image/jpg", "image/png", "image/jpeg"].includes(req.file.mimetype)){
         return res.status(400).json({ message: "Please upload a JPG/ PNG file" });
     }
 
@@ -47,12 +47,12 @@ async function getEmployee(req, res){
 
 async function updateEmployee(req, res){
     const { f_name, f_email, f_mobile, f_designation, f_gender, f_course } = req.body;
-    const f_image = req.file?req.file.path : req.body.f_image;
+    const f_image = req.file?req.file.filename : '';
 
-    const existingEmailCheck = await Employee.findOne({ f_email });
-    if(existingEmailCheck){
-        return res.status(400).json({ message: "Email already exists" });
-    }
+    // const existingEmailCheck = await Employee.findOne({ f_email });
+    // if(existingEmailCheck){
+    //     return res.status(400).json({ message: "Email already exists" });
+    // }
     
     try{
         const employee = await Employee.findByIdAndUpdate(req.params.id, { f_name, f_email, f_mobile, f_designation, f_gender, f_course, f_image}, { new: true });

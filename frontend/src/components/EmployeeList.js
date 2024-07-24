@@ -18,15 +18,19 @@ export default function EmployeeList() {
 
   const navigate = useNavigate();
   const[cookie, setCookie] = useState('');
+
   useEffect(() => {
     const name = Cookies.get('name');
     if(name){
       setCookie(name);
+    } else {
+      navigate('/');
     }
-  }, []);
+  }, [navigate]);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    Cookies.remove('name');
     navigate('/');
   };
 
@@ -68,19 +72,25 @@ export default function EmployeeList() {
               <Nav.Link href="/employees">Employee List</Nav.Link>
             </Nav>
           </Navbar.Collapse>
+          </Container>
+          </Navbar>
           {cookie ? (
           <>
+            {/* <Container style={{ marginRight:"0" }}>
             <span className='m-2 p-2 w-25 text-center bg-black text-color-white rounded' style={{ color: "white", fontFamily: "cursive" }}>{cookie}</span>
             <Button variant="danger" onClick={handleLogout}>
               Logout
             </Button>
-          </>
-        ) : (
-          <Nav.Link href="/">Login</Nav.Link>
-        )}
-        </Container>
-      </Navbar>
-      <Container>
+            </Container> */}
+
+            <Container style = {{ width: "20%", marginRight: "0", marginTop: "0" }}>
+          <span className='m-2 p-2 w-50 text-center bg-black text-color-white rounded' style={{ color: "white", fontFamily: "cursive" }}>{cookie}</span>
+            <Button variant="danger" onClick={handleLogout}>
+              Logout
+            </Button>
+          </Container>
+
+            <Container className='m-5'>
         <Form className="mb-4">
           <Form.Group controlId="search">
             <Form.Control
@@ -142,6 +152,9 @@ export default function EmployeeList() {
         </Table>
         <p>Total Employees: {filteredEmployees.length}</p>
       </Container>
+          </>
+        ) : null}
+      
     </div>
   );
 }

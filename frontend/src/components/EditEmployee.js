@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
+import Cookies from 'js-cookie';
 import Button from 'react-bootstrap/Button';
 
 export default function EditEmployee() {
@@ -14,8 +15,18 @@ export default function EditEmployee() {
   const [f_course, setCourse] = useState([]);
   const [f_image, setImage] = useState('');
   const [existingImage, setExistingImage] = useState('');
+  const [cookie, setCookie] = useState('');
   const navigate = useNavigate();
   const { id } = useParams();
+
+  useEffect(() => {
+    const name = Cookies.get('name');
+    if (name) {
+      setCookie(name);
+    } else {
+      navigate('/');
+    }
+  }, [navigate]);
 
   useEffect(() => {
     const fetchEmployee = async () => {
@@ -26,8 +37,7 @@ export default function EditEmployee() {
         setMobile(data.f_mobile);
         setDesignation(data.f_designation);
         setGender(data.f_gender);
-        setCourse(data.f_course);
-        setImage(data.f_image);
+        setCourse(JSON.parse(data.f_course.join(',')));
         setExistingImage(data.f_image);
       } catch (error) {
         console.error('Error fetching employee data:', error);
@@ -35,6 +45,27 @@ export default function EditEmployee() {
     };
     fetchEmployee();
   }, [id]);
+
+  useEffect(() => {
+    localStorage.setItem('selectedCourses', JSON.stringify(f_course));
+  }, [f_course]);
+
+  useEffect(() => {
+    const storedCourses = localStorage.getItem('selectedCourses');
+    if (storedCourses) {
+      setCourse(JSON.parse(storedCourses));
+    }
+  }, []);
+
+  // Handler to update selected courses
+  const handleCourseChange = (e) => {
+    const value = e.target.value;
+    if (e.target.checked) {
+      setCourse([...f_course, value]);
+    } else {
+      setCourse(f_course.filter(course => course !== value));
+    }
+  };
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -45,7 +76,7 @@ export default function EditEmployee() {
     formData.append('f_mobile', f_mobile);
     formData.append('f_designation', f_designation);
     formData.append('f_gender', f_gender);
-    formData.append('f_course', f_course); // Correct this to be JSON
+    formData.append('f_course', JSON.stringify(f_course));
     if (f_image instanceof File) {
       formData.append('f_image', f_image);
     } else {
@@ -62,13 +93,9 @@ export default function EditEmployee() {
     }
   };
 
-  const handleCourseChange = (e) => {
-    const value = e.target.value;
-    if (e.target.checked) {
-      setCourse([...f_course, value]);
-    } else {
-      setCourse(f_course.filter(course => course !== value));
-    }
+  // Function to get selected courses display string
+  const getSelectedCoursesDisplay = () => {
+    return f_course.join(', '); // Join array elements with a comma and space
   };
 
   return (
@@ -91,9 +118,9 @@ export default function EditEmployee() {
           <Form.Label>Designation</Form.Label>
           <Form.Select value={f_designation} onChange={(e) => setDesignation(e.target.value)}>
             <option value="">Select Designation</option>
+            <option value="HR">HR</option>
             <option value="Manager">Manager</option>
-            <option value="Developer">Developer</option>
-            <option value="Designer">Designer</option>
+            <option value="Sales">Designer</option>
           </Form.Select>
         </Form.Group>
         <Form.Group controlId="formGender" className="mt-3">
@@ -122,25 +149,25 @@ export default function EditEmployee() {
           <div>
             <Form.Check
               type="checkbox"
-              label="JavaScript"
-              value="JavaScript"
-              checked={f_course.includes('JavaScript')}
+              label="MCA"
+              value="MCA"
+              checked={f_course.includes('MCA')}
               onChange={handleCourseChange}
               inline
             />
             <Form.Check
               type="checkbox"
-              label="Python"
-              value="Python"
-              checked={f_course.includes('Python')}
+              label="BCA"
+              value="BCA"
+              checked={f_course.includes('BCA')}
               onChange={handleCourseChange}
               inline
             />
             <Form.Check
               type="checkbox"
-              label="Java"
-              value="Java"
-              checked={f_course.includes('Java')}
+              label="BSC"
+              value="BSC"
+              checked={f_course.includes('BSC')}
               onChange={handleCourseChange}
               inline
             />
@@ -154,6 +181,10 @@ export default function EditEmployee() {
             </div>
           )}
           <Form.Control type="file" onChange={(e) => setImage(e.target.files[0])} />
+        </Form.Group>
+        <Form.Group controlId="formSelectedCoursesDisplay" className="mt-3">
+          <Form.Label>Selected Courses</Form.Label>
+          <Form.Control type="text" readOnly value={getSelectedCoursesDisplay()} />
         </Form.Group>
         <Button variant="primary" type="submit" className="mt-3">
           Update Employee

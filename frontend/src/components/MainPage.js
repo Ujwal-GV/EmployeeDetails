@@ -10,13 +10,16 @@ import '../App.css';
 
 export default function MainPage() {
   const navigate = useNavigate();
-  const[cookie, setCookie] = useState('');
+  const [cookie, setCookie] = useState('');
+
   useEffect(() => {
     const name = Cookies.get('name');
-    if(name){
+    if (name) {
       setCookie(name);
+    } else {
+      navigate('/');
     }
-  }, []);
+  }, [navigate]);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -36,24 +39,28 @@ export default function MainPage() {
               <Nav.Link href="/employees">Employee List</Nav.Link>
             </Nav>
           </Navbar.Collapse>
-          {cookie ? (
-          <>
-            <span className='m-2 p-2 w-25 text-center bg-black text-color-white rounded' style={{ color: "white", fontFamily: "cursive" }}>{cookie}</span>
+        </Container>
+      </Navbar>
+      {cookie ? (
+        <>
+          <Container style={{ width: "20%", marginRight: "0", marginTop: "0" }}>
+            <span className='m-2 p-2 w-50 text-center bg-black text-color-white rounded' style={{ color: "white", fontFamily: "cursive" }}>
+              {cookie}
+            </span>
             <Button variant="danger" onClick={handleLogout}>
               Logout
             </Button>
-          </>
-        ) : (
-          <Nav.Link href="/">Login</Nav.Link>
-        )}
-        </Container>
-      </Navbar>
-      <Container className="text-center" style={{ marginTop: "10%" }}>
-        <h2>Welcome to Dashboard</h2>
-        <Button variant="primary" href="/create-employee" className="mt-3">
-          Create Employee
-        </Button>
-      </Container>
+          </Container>
+          <Container className="text-center d-flex align-items-center flex-column justify-content-center">
+            <Container className="text-center" style={{ marginTop: "10%" }}>
+              <h2>Welcome to Dashboard</h2>
+              <Button variant="primary" href="/create-employee" className="mt-3">
+                Create Employee
+              </Button>
+            </Container>
+          </Container>
+        </>
+      ) : null}
     </div>
   );
 }

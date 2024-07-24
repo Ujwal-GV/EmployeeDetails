@@ -2,6 +2,7 @@ const express = require("express");
 const multer = require('multer');
 const path = require("path");
 const router = express.Router();
+const { checkAuthorization } = require("../middleware/authMiddleware");
 const { createEmployee, getAllUsers, getEmployee, updateEmployee, deleteEmployee } = require("../controllers/employeeController");
 
 const storage = multer.diskStorage({
@@ -16,7 +17,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 const fileFilter = (req, file, cb) => {
-    const filetypes = /jpg|png/;
+    const filetypes = /jpeg|jpg|png/;
     const mimetype = filetypes.test(file.mimetype);
     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
     
@@ -27,11 +28,11 @@ const fileFilter = (req, file, cb) => {
     }
 };
 
-router.route("/").get(getAllUsers);
+router.route("/", checkAuthorization).get(getAllUsers);
 
 router.post("/create", upload.single("f_image"), createEmployee);
 
-router.route("/:id")
+router.route("/:id", checkAuthorization)
 .get(getEmployee)
 .put(upload.single("f_image"), updateEmployee)
 .delete(deleteEmployee);
