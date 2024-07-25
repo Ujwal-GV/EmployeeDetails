@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const connectMongoDB = async() => {
     try{
-        const conn = await mongoose.connect("mongodb://127.0.0.1:27017/t_Employee")
+        const conn = await mongoose.connect("mongodb+srv://ujwalgowda2002v:iD4Ostt2YhnamRhV@userview.1xod5p9.mongodb.net/?retryWrites=true&w=majority&appName=userView");
         console.log("MongoDB connected");
     }
     catch(error){
