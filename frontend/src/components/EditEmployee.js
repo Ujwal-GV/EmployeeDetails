@@ -31,7 +31,7 @@ export default function EditEmployee() {
   useEffect(() => {
     const fetchEmployee = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:5001/api/employees/${id}`);
+        const { data } = await axios.get(`https://employee-info-crud.onrender.com/api/employees/${id}`);
         setName(data.f_name);
         setEmail(data.f_email);
         setMobile(data.f_mobile);
@@ -84,7 +84,7 @@ export default function EditEmployee() {
     }
 
     try {
-      await axios.put(`http://localhost:5001/api/employees/${id}`, formData, {
+      await axios.put(`https://employee-info-crud.onrender.com/api/employees/${id}`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       navigate('/employees');
@@ -177,7 +177,7 @@ export default function EditEmployee() {
           <Form.Label>Image</Form.Label>
           {existingImage && (
             <div>
-              <img src={`http://localhost:5001/uploads/${existingImage}`} alt="Employee" style={{ width: '100px', height: '100px' }} />
+              <img src={`https://employee-info-crud.onrender.com/uploads/${existingImage}`} alt="Employee" style={{ width: '100px', height: '100px' }} />
             </div>
           )}
           <Form.Control type="file" onChange={(e) => setImage(e.target.files[0])} />

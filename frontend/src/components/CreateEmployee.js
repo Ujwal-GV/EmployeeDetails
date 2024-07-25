@@ -38,7 +38,7 @@ export default function CreateEmployee() {
         formData.append('f_image', f_image);
 
         try {
-            const response = await axios.post('http://localhost:5001/api/employees/create', formData, {
+            const response = await axios.post('https://employee-info-crud.onrender.com/api/employees/create', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
             console.log("Created", response.data);

@@ -37,7 +37,7 @@ export default function EmployeeList() {
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const { data } = await axios.get('http://localhost:5001/api/employees');
+        const { data } = await axios.get('https://employee-info-crud.onrender.com/api/employees');
         setEmployees(data);
         console.log(data);
       } catch (error) {
@@ -53,7 +53,7 @@ export default function EmployeeList() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5001/api/employees/${id}`);
+      await axios.delete(`https://employee-info-crud.onrender.com/api/employees/${id}`);
       setEmployees(employees.filter(employee => employee._id !== id));
     } catch (error) {
       console.error('Error deleting employee:', error);
@@ -127,7 +127,7 @@ export default function EmployeeList() {
                   <td>
                   {employee.f_image && (
                       <img
-                        src={`http://localhost:5001/uploads/${employee.f_image}`}
+                        src={`https://employee-info-crud.onrender.com/uploads/${employee.f_image}`}
                         alt={employee.f_name}
                         style={{ width: '50px', height: '50px' }}
                       />

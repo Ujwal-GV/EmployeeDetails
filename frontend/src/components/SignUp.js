@@ -23,7 +23,7 @@ export default function SignUp() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-        const res = await axios.post('http://localhost:5001/api/admin/signup', { userName, password });
+        const res = await axios.post('https://employee-info-crud.onrender.com/api/admin/signup', { userName, password });
         if (res.status === 201 || 200) {
             navigate('/');
         }

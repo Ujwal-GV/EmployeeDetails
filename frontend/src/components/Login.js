@@ -25,7 +25,7 @@ export default function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-        const res = await axios.post('http://localhost:5001/api/admin/login', { userName, password });
+        const res = await axios.post('https://employee-info-crud.onrender.com/api/admin/login', { userName, password });
         if (res.data.token) {
             Cookies.set('name', userName);
             localStorage.setItem('token', res.data.token);
