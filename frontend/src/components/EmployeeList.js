@@ -62,7 +62,7 @@ export default function EmployeeList() {
 
   return (
     <div>
-      <Navbar expand="lg" className="bg-body-primary mb-4">
+      {/* <Navbar expand="lg" className="bg-body-primary mb-4">
         <Container fluid>
           <Navbar.Brand href="/main">EMPLOYEE DETAILS</Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
@@ -73,7 +73,30 @@ export default function EmployeeList() {
             </Nav>
           </Navbar.Collapse>
           </Container>
-          </Navbar>
+          </Navbar> */}
+
+          <Navbar expand="lg" className="bg-body-primary">
+        <Container fluid>
+          <Navbar.Brand href="/main">EMPLOYEE DETAILS</Navbar.Brand>
+          <Navbar.Toggle aria-controls="navbarScroll" />
+          <Navbar.Collapse id="navbarScroll">
+            <Nav className="me-auto my-2 my-lg-0" navbarScroll>
+              <Nav.Link href="/main">Home</Nav.Link>
+              <Nav.Link href="/employees">Employee List</Nav.Link>
+            </Nav>
+            {cookie && (
+              <Nav className="ms-auto my-2 my-lg-0 d-flex align-items-center">
+                <span className='m-2 p-2 text-center bg-black text-color-white rounded' style={{ color: "white", fontFamily: "cursive" }}>
+                  {cookie}
+                </span>
+                <Button variant="danger" onClick={handleLogout}>
+                  Logout
+                </Button>
+              </Nav>
+            )}
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
           {cookie ? (
           <>
             {/* <Container style={{ marginRight:"0" }}>
@@ -83,12 +106,12 @@ export default function EmployeeList() {
             </Button>
             </Container> */}
 
-            <Container style = {{ width: "20%", marginRight: "0", marginTop: "0" }}>
+            {/* <Container style = {{ width: "20%", marginRight: "0", marginTop: "0" }}>
           <span className='m-2 p-2 w-50 text-center bg-black text-color-white rounded' style={{ color: "white", fontFamily: "cursive" }}>{cookie}</span>
             <Button variant="danger" onClick={handleLogout}>
               Logout
             </Button>
-          </Container>
+          </Container> */}
 
             <Container className='m-5'>
         <Form className="mb-4">

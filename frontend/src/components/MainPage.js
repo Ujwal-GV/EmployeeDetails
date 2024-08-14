@@ -38,29 +38,29 @@ export default function MainPage() {
               <Nav.Link href="/main">Home</Nav.Link>
               <Nav.Link href="/employees">Employee List</Nav.Link>
             </Nav>
+            {cookie && (
+              <Nav className="ms-auto my-2 my-lg-0 d-flex align-items-center">
+                <span className='m-2 p-2 text-center bg-black text-color-white rounded' style={{ color: "white", fontFamily: "cursive" }}>
+                  {cookie}
+                </span>
+                <Button variant="danger" onClick={handleLogout}>
+                  Logout
+                </Button>
+              </Nav>
+            )}
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      {cookie ? (
-        <>
-          <Container style={{ width: "20%", marginRight: "0", marginTop: "0" }}>
-            <span className='m-2 p-2 w-50 text-center bg-black text-color-white rounded' style={{ color: "white", fontFamily: "cursive" }}>
-              {cookie}
-            </span>
-            <Button variant="danger" onClick={handleLogout}>
-              Logout
+      {cookie && (
+        <Container className="text-center d-flex align-items-center flex-column justify-content-center" style={{ marginTop: "5%" }}>
+          <Container className="text-center">
+            <h2>Welcome to Dashboard</h2>
+            <Button variant="primary" href="/create-employee" className="mt-3">
+              Create Employee
             </Button>
           </Container>
-          <Container className="text-center d-flex align-items-center flex-column justify-content-center">
-            <Container className="text-center" style={{ marginTop: "10%" }}>
-              <h2>Welcome to Dashboard</h2>
-              <Button variant="primary" href="/create-employee" className="mt-3">
-                Create Employee
-              </Button>
-            </Container>
-          </Container>
-        </>
-      ) : null}
+        </Container>
+      )}
     </div>
   );
 }
